@@ -3,5 +3,18 @@
   
 }
 
-
-
+.content{
+  padding-top:6em;
+}
+.toolip-right{
+  float: right;
+  margin-right: 2em;
+  background-color: rgb(226, 58, 86);
+  font-size: 1.2em
+}
+.map{
+  height: 18em;
+  width: 44%;
+  float: right; 
+  margin-right: 2em;
+}

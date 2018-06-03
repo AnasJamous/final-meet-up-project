@@ -3,7 +3,23 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import './App.css';
 import Map from './Map';
 
-
+const Header = () => ( 
+  <nav>
+    <a href="#" className="brand">
+      <img className="logo" src="/web/img/basket.png" />
+      <span> <Link to="/"> Meet Up</Link> </span>
+    </a>
+  
+    
+    <input id="bmenub" type="checkbox" className="show" />
+    <label for="bmenub" className="burger pseudo button">menu</label>
+  
+    <div className="menu">
+      <a href="#" className="pseudo button icon-picture">Login</a>
+      <a href="#" className="button icon-puzzle">Sign up</a>
+    </div>
+  </nav>
+)
 const Topic = ({name, topicId, meetups}) => (
   <div >
     <h1>{name}</h1>
@@ -16,6 +32,27 @@ const Topic = ({name, topicId, meetups}) => (
         </li>
       )}
     </ul>
+    <label for="modal_1" class="button">Create New Meet Up</label>
+
+    <div class="modal">
+      <input id="modal_1" type="checkbox" />
+      <label for="modal_1" class="overlay"></label>
+      <article>
+        <header>
+          <h3>Add Meet Up</h3>
+          <label for="modal_1" class="close">&times;</label>
+        </header>
+        <section class="content">
+        We'll guide you through a quick process to kick things off ...
+        </section>
+        <footer>
+          <a class="button" href="/topic/0/meetup/add">Start New Meet Up</a>
+          <label for="modal_1" class="button dangerous">
+            Cancel
+          </label>
+        </footer>
+      </article>
+    </div>
   </div>
 )
 
@@ -33,12 +70,12 @@ const markers = [
 const Meetup = ({topicId, date, location, topicName, name, description, creator, users }) => (
   <div>
     <Link to={'/topic/'+topicId}>back</Link>
+    
     <h1>{topicName}</h1>
     <h2>{name}</h2>
-    <h2>Location</h2>
     <Map markers={markers}/>
     <h3>Date: { date }</h3>
-    <h4>by { creator.username }</h4>
+    <h4> <h2>Organized by :</h2>  { creator.username }</h4>
     <p>{description}</p>
     <div>
       <h5>Attendance</h5>
@@ -46,6 +83,27 @@ const Meetup = ({topicId, date, location, topicName, name, description, creator,
         { users.map( user => <li key={user.username}>{user.username}</li>)}
       </ul>
     </div>
+  </div>
+)
+
+const Topics = ({topicsList}) => (
+  <div className="topicsList">
+    <div className="flex four center demo">
+      { topicsList.map( (topic, index) => 
+        <div key={index}>
+            <article className="card">
+              <img  src="https://www.rd.com/wp-content/uploads/2017/09/01-Can-You-Pass-This-Elementary-School-Math-Test--760x506.jpg" />
+              <footer>
+                <h3>
+                  <Link className="topic" to={'/topic/'+index}>{topic.name}</Link>
+                </h3>
+                <button>Follow</button>
+              </footer>
+            </article>
+        </div>
+      )}
+    </div>
+    
   </div>
 )
 
@@ -65,18 +123,18 @@ class App extends Component {
     topicsList:[
       { name:'maths'
       , meetups:[
-        { name:'trigonometry',
+        { name:'Explore your math skills',
           date:'23rd Sept',
           by:0,
           location:{lat:234234,lng:2234324},
-          description:'Blah blah blah', 
+          description:"Find out what's happening in Mathematics Meetup groups around the world and start meeting up with the ones near you.", 
           users:[0,4]
         },
-        { name:'trigonometry2',
+        { name:'Open disscutionAlgorithm Design',
           date:'24th Jan',
           by:2,
           location:{lat:234234,lng:2234324},
-          description:'Blah blah blah',
+          description:"Find out what's happening in Mathematics Meetup groups around the world and start meeting up with the ones near you.",
           users:[1,2]
         }
       ]
@@ -150,8 +208,8 @@ class App extends Component {
     const users = meetup.users.map(id => this.state.users[id])
     return (
       <div>
-        <button onClick={()=>this.onGoingToMeetup(topicId, meetupId)}>I am going</button>
-        <Meetup topicId={topicId} date={meetup.date} location={meetup.location} topicName={topic.name} name={meetup.name} description={meetup.description} creator={creator} users={users}/>
+        <button className="toolip-right" onClick={()=>this.onGoingToMeetup(topicId, meetupId)}>I am going</button>
+        <Meetup  topicId={topicId} date={meetup.date} location={meetup.location} topicName={topic.name} name={meetup.name} description={meetup.description} creator={creator} users={users}/>
       </div>)
   }
   onRenderMeetupAddSubmit = (evt) => {
@@ -196,40 +254,22 @@ class App extends Component {
       <input type="submit" value="ok"/>
     </form>)
   }
+  renderTopicsList = (props) => {
+    return <Topics topicsList={this.state.topicsList}/>
+  }
   render() {
     return (
-      
       <Router>
-        <div>
-          
-          
-          <div className="flex three center demo">
-          <div>
-            <article className="card">
-              <img src="https://www.rd.com/wp-content/uploads/2017/09/01-Can-You-Pass-This-Elementary-School-Math-Test--760x506.jpg" />
-              <footer>
-                <h3>{ this.state.topicsList.map( (topic, index) => 
-                      <Link className="topic" key={index} to={'/topic/'+index}>{topic.name}</Link>
-                    )}
-                </h3>
-                <button>Follow</button>
-              </footer>
-            </article>
+        <div> 
+          <Header />
+          <div className="content">
+            <Switch>
+              <Route exact path={'/'} render={this.renderTopicsList}/>
+              <Route exact path={'/topic/:topicId'} render={this.renderTopic}/>
+              <Route exact path={'/topic/:topicId/meetup/add'} render={this.renderMeetupAdd}/>
+              <Route exact path={'/topic/:topicId/meetup/:meetupId'} render={this.renderMeetup}/>
+            </Switch>  
           </div>
-
-            { this.state.topicsList.map( (topic, index) => 
-              <Link className="topic" key={index} to={'/topic/'+index}>{topic.name}</Link>
-            )}
-
-          </div>
-          <Switch>
-            <Route exact path={'/'} render={()=><div>
-                                                  <h1><span class="label">Meet Up</span></h1>
-                                                </div>}/>
-            <Route exact path={'/topic/:topicId'} render={this.renderTopic}/>
-            <Route exact path={'/topic/:topicId/meetup/add'} render={this.renderMeetupAdd}/>
-            <Route exact path={'/topic/:topicId/meetup/:meetupId'} render={this.renderMeetup}/>
-          </Switch>  
         </div>
       </Router>
     );
