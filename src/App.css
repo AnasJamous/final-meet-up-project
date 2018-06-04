@@ -5,6 +5,9 @@
 
 .content{
   padding-top:6em;
+  max-width:1200px;
+  margin: 0 auto;
+  padding:6em 1em 1em 1em;
 }
 .toolip-right{
   float: right;

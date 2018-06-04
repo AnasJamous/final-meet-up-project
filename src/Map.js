@@ -4,7 +4,7 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 const GoogleMapExample = withGoogleMap( props => (
    <GoogleMap
      defaultCenter = { { lat: 33.8964022, lng: 35.5281077 } }
-     defaultZoom = { 13 }
+     defaultZoom = { 12.5 }
    >
    { props.markers.map( ({position,id}) => <Marker key={id} position={position}/>)}
    </GoogleMap>
