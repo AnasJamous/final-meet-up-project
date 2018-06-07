@@ -7,7 +7,7 @@ const Header = () => (
   <nav>
     <a href="#" className="brand">
       <img className="logo" src="/web/img/basket.png" />
-      <span> <Link to="/"> Meet Up</Link> </span>
+      <span> <Link to="/"> Get Together</Link> </span>
     </a>
   
     
@@ -23,7 +23,7 @@ const Header = () => (
 const Topic = ({name, topicId, image, meetups}) => (
   <div >
     <h1 style={{textAlign:'center', fontSize:'4em'}}>{name}</h1>
-    <h1> - The Upcoming Meets Up :</h1>
+    <h1> - Study Groups :</h1>
     <ul>
       { meetups.map( (meetup, index )=> 
         <li key={index}>
@@ -34,21 +34,21 @@ const Topic = ({name, topicId, image, meetups}) => (
         </li>
       )}
     </ul>
-    <label for="modal_1" class="button">Create New Meet Up</label>
+    <label for="modal_1" class="button">Create New Study Group</label>
 
     <div class="modal">
       <input id="modal_1" type="checkbox" />
       <label for="modal_1" class="overlay"></label>
       <article>
         <header>
-          <h3>Add Meet Up</h3>
+          <h3>schedule a new group study </h3>
           <label for="modal_1" class="close">&times;</label>
         </header>
         <section class="content">
         We'll guide you through a quick process to kick things off ...
         </section>
         <footer>
-          <a class="button" href="/topic/0/meetup/add">Start New Meet Up</a>
+          <a class="button" href="/topic/0/meetup/add">Create New Group</a>
           <label for="modal_1" class="button dangerous">
             Cancel
           </label>
@@ -61,6 +61,7 @@ const Topic = ({name, topicId, image, meetups}) => (
 const markers = [
   {   name:'',
       id:'33',
+      title : 'Changing Colors Garage' ,
       position:{ lat: 33.8964022, lng: 35.5281077 }
   },
   {   name:'',
@@ -92,7 +93,7 @@ const Meetup = ({topicId, date, location, topicName, name, description, creator,
     
     <h1>{topicName}</h1>
     <h2>{name}</h2>
-    <Map markers={markers}/>
+    <Map className="map" markers={markers}/>
     <h3>Date: { date }</h3>
     <h4> <h2>Organized by :</h2>  { creator.username }</h4>
     <p>{description}</p>
@@ -107,6 +108,9 @@ const Meetup = ({topicId, date, location, topicName, name, description, creator,
 
 const Topics = ({topicsList}) => (
   <div className="topicsList">
+    <div>
+      <Map className="batata" />  
+    </div>
     <div className="flex four center demo">
       { topicsList.map( (topic, index) => 
         <div key={index}>
@@ -159,7 +163,7 @@ class App extends Component {
         }
       ]
       },
-      { name: 'Development'
+      { name: 'Programming Language'
       , image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJZ453odkbv9CSX4q_-nk4Ldt7TQ-DzWfkX6wCvXxAieOZSj4R"
       , meetups:[
           { name:'Developers & Entrepreneurs',
@@ -195,20 +199,8 @@ class App extends Component {
           }
         ]
       },
-      { name: 'Beliefs'
+      { name: 'Physics'
       , image: "data:image/jpeg;base64,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"
-      , meetups:[
-          { name:'Developers & Entrepreneurs',
-            date:'12th may',
-            by:3,
-            location:{lat:234234,lng:2234324},
-            description:'Hello and welcome to the MOST ACTIVE Meetup in the World for Developers and Entrepreneurs!!! ',
-            users:[0,1,2]
-          }
-        ]
-      },
-      { name: 'Career and Business'
-      , image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkNd5wJO3SWyeU5f_g95ZayRVIDu4KRpcULaJ_yXod5GSJIKes"
       , meetups:[
           { name:'Developers & Entrepreneurs',
             date:'12th may',
