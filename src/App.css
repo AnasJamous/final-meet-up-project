@@ -26,3 +26,13 @@
   width: 97%;
   height: 25em
 }
+.off-two-fifth {
+    margin-left: 42%;
+    width: 12em;
+    padding: 1em;
+}
+.footer{
+  background-color: rgb(53, 42, 42);
+  width: 100%;
+  height: 100%;
+}

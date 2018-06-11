@@ -5,20 +5,24 @@ import Map from './Map';
 
 const Header = () => ( 
   <nav>
-    <a href="#" className="brand">
-      <img className="logo" src="/web/img/basket.png" />
-      <span> <Link to="/"> Get Together</Link> </span>
-    </a>
-  
+      <Link to="/" className="brand">
+        <img alt="website logo" className="logo" src="/web/img/basket.png" />
+        <span>  Get Together </span>
+      </Link>
     
     <input id="bmenub" type="checkbox" className="show" />
-    <label for="bmenub" className="burger pseudo button">menu</label>
+    <label htmlFor="bmenub" className="burger pseudo button">menu</label>
   
     <div className="menu">
-      <a href="#" className="pseudo button icon-picture">Log in</a>
-      <a href="#" className="button icon-puzzle">Sign Up</a>
+      <a className="pseudo button icon-picture">Log in</a>
+      <a className="button icon-puzzle">Sign Up</a>
     </div>
   </nav>
+)
+const Footer = () => (
+  <div className="footer">
+    <h1 style={{textAlign:'center',color:'white'}}> THIS IS FOOTER  </h1>
+  </div>
 )
 const Topic = ({name, topicId, image, meetups}) => (
   <div >
@@ -61,28 +65,33 @@ const Topic = ({name, topicId, image, meetups}) => (
 const markers = [
   {   name:'',
       id:'33',
-      title : 'Changing Colors Garage' ,
-      position:{ lat: 33.8964022, lng: 35.5281077 }
+      title:"Physics",
+      position:{ lat: 33.8786574, lng: 35.5374814 }
   },
   {   name:'',
       id:4545,
-      position:{ lat: 33.8954022, lng: 35.5271077 }
+      title:"Math",
+      position:{ lat: 33.8718676, lng: 35.5260193 }
   },
   {   name:'',
       id:'53',
-      position:{ lat: 33.8764332, lng: 35.5261077 }
+      title:"Arts",
+      position:{ lat: 33.88616, lng: 35.5087711 }
   },
   {   name:'',
       id:'43',
-      position:{ lat: 33.8974022, lng: 35.5251077 }
+      title:"Architecture",
+      position:{ lat: 33.877461, lng: 35.54552 }
   },
   {   name:'',
       id:'23',
-      position:{ lat: 33.8984022, lng: 35.5241077 }
+      title:"Finanace",
+      position:{ lat: 33.887589, lng: 35.524633 }
   },
   {   name:'',
       id:'13',
-      position:{ lat: 33.8994022, lng: 35.5231077 }
+      title:"Advertising",
+      position:{ lat: 33.88608, lng: 35.515488 }
   },
   
 ]
@@ -95,7 +104,7 @@ const Meetup = ({topicId, date, location, topicName, name, description, creator,
     <h2>{name}</h2>
     <Map className="map" markers={markers}/>
     <h3>Date: { date }</h3>
-    <h4> <h2>Organized by :</h2>  { creator.username }</h4>
+    <h4> <span className="small">Organized by :</span>  { creator.username }</h4>
     <p>{description}</p>
     <div>
       <h5>Attendance</h5>
@@ -109,13 +118,15 @@ const Meetup = ({topicId, date, location, topicName, name, description, creator,
 const Topics = ({topicsList}) => (
   <div className="topicsList">
     <div>
-      <Map className="batata" />  
+      <button className="off-two-fifth error" > Your Location </button>
+      <Map className="batata" markers={markers} />  
+      
     </div>
     <div className="flex four center demo">
       { topicsList.map( (topic, index) => 
         <div key={index}>
             <article className="card">
-              <img style={{height:'10em'}}  src={topic.image} />
+              <img alt={topic.name} style={{height:'10em'}}  src={topic.image} />
               <footer>
                 <h3>
                   <Link className="topic" to={'/topic/'+index}>{topic.name}</Link>
@@ -351,6 +362,9 @@ class App extends Component {
               <Route exact path={'/topic/:topicId/meetup/:meetupId'} render={this.renderMeetup}/>
             </Switch>  
           </div>
+          <div>
+            <Footer />
+            </div>
         </div>
       </Router>
     );
