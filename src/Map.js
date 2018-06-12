@@ -4,7 +4,7 @@ import { MarkerWithLabel } from 'react-google-maps/lib/components/addons/MarkerW
 
 const GoogleMapExample = withGoogleMap( props => (
    <GoogleMap
-     defaultCenter = { { lat: 33.881938, lng: 35.541888 } }
+     defaultCenter = { props.position }
      defaultZoom = { 14 }
    >
    { props.markers.map( ({id, title,...props}) => 
@@ -18,12 +18,14 @@ const GoogleMapExample = withGoogleMap( props => (
 class Map extends Component {
     render() {
     const markers = this.props.markers || []
+    const position = this.props.position || { lat: 33.881938, lng: 35.541888 }
     return(
       <div>
         <GoogleMapExample
           containerElement={ <div className={this.props.className} /> }
           mapElement={ <div style={{ height: `100%` }} /> }
           markers={markers}
+          position={position}
         />
       </div>
    );
