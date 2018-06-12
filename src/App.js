@@ -62,47 +62,18 @@ const Topic = ({name, topicId, image, meetups}) => (
   </div>
 )
 
-const markers = [
-  {   name:'',
-      id:'33',
-      title:"Physics",
-      position:{ lat: 33.8786574, lng: 35.5374814 }
-  },
-  {   name:'',
-      id:4545,
-      title:"Math",
-      position:{ lat: 33.8718676, lng: 35.5260193 }
-  },
-  {   name:'',
-      id:'53',
-      title:"Arts",
-      position:{ lat: 33.88616, lng: 35.5087711 }
-  },
-  {   name:'',
-      id:'43',
-      title:"Architecture",
-      position:{ lat: 33.877461, lng: 35.54552 }
-  },
-  {   name:'',
-      id:'23',
-      title:"Finanace",
-      position:{ lat: 33.887589, lng: 35.524633 }
-  },
-  {   name:'',
-      id:'13',
-      title:"Advertising",
-      position:{ lat: 33.88608, lng: 35.515488 }
-  },
-  
-]
-
-const Meetup = ({topicId, date, location, topicName, name, description, creator, users }) => (
+const Meetup = ({topicId, date, location, topicName, name, description, creator, users, markers }) => (
   <div>
     <Link to={'/topic/'+topicId}>back</Link>
     
     <h1>{topicName}</h1>
     <h2>{name}</h2>
-    <Map className="map" markers={markers}/>
+    <Map className="map" markers={[{   
+          name: name,
+          id: topicId,
+          title: name,
+          position:{ lat: location.lat, lng: location.lng }
+      }]}/>
     <h3>Date: { date }</h3>
     <h4> <span className="small">Organized by :</span>  { creator.username }</h4>
     <p>{description}</p>
@@ -115,7 +86,8 @@ const Meetup = ({topicId, date, location, topicName, name, description, creator,
   </div>
 )
 
-const Topics = ({topicsList}) => (
+
+const Topics = ({topicsList, markers}) => (
   <div className="topicsList">
     <div>
       <button className="off-two-fifth error" > Your Location </button>
@@ -141,6 +113,7 @@ const Topics = ({topicsList}) => (
   </div>
 )
 
+
 class App extends Component {
   state = {
     user:3,
@@ -161,14 +134,14 @@ class App extends Component {
         { name:'Explore your math skills',
           date:'23rd Sept',
           by:0,
-          location:{lat:234234,lng:2234324},
+          location:{lat:33.8786574,lng:35.5374814},
           description:"Find out what's happening in Mathematics Meetup groups around the world and start meeting up with the ones near you.", 
           users:[0,4]
         },
         { name:'Open disscutionAlgorithm Design',
           date:'24th Jan',
           by:2,
-          location:{lat:234234,lng:2234324},
+          location:{lat:33.,lng:2234324},
           description:"Find out what's happening in Mathematics Meetup groups around the world and start meeting up with the ones near you.",
           users:[1,2]
         }
@@ -234,8 +207,42 @@ class App extends Component {
           }
         ]
       },
+    ],
+    markers: [
+      {   name:'',
+          id:'33',
+          title:"Physics",
+          position:{ lat: 33.8786574, lng: 35.5374814 }
+      },
+      {   name:'',
+          id:4545,
+          title:"Math",
+          position:{ lat: 33.8718676, lng: 35.5260193 }
+      },
+      {   name:'',
+          id:'53',
+          title:"Arts",
+          position:{ lat: 33.88616, lng: 35.5087711 }
+      },
+      {   name:'',
+          id:'43',
+          title:"Architecture",
+          position:{ lat: 33.877461, lng: 35.54552 }
+      },
+      {   name:'',
+          id:'23',
+          title:"Finanace",
+          position:{ lat: 33.887589, lng: 35.524633 }
+      },
+      {   name:'',
+          id:'13',
+          title:"Advertising",
+          position:{ lat: 33.88608, lng: 35.515488 }
+      },
+      
     ]
   }
+  
   renderTopic = (props) => {
     const topicId = props.match.params.topicId
     const topic = this.state.topicsList[topicId]
@@ -294,7 +301,7 @@ class App extends Component {
     return (
       <div>
         <button className="toolip-right" onClick={()=>this.onGoingToMeetup(topicId, meetupId)}>I am going</button>
-        <Meetup  topicId={topicId} date={meetup.date} location={meetup.location} topicName={topic.name} name={meetup.name} description={meetup.description} creator={creator} users={users}/>
+        <Meetup  topicId={topicId} date={meetup.date} location={meetup.location} topicName={topic.name} name={meetup.name} description={meetup.description} creator={creator} users={users} markers={this.state.markers}/>
       </div>)
   }
   onRenderMeetupAddSubmit = (evt) => {
@@ -332,12 +339,12 @@ class App extends Component {
     return (
     <div className="flex one two-600 three-900">
       <form className="" onSubmit={this.onRenderMeetupAddSubmit}>
-        <h3>Details</h3>
-        <input className="stack" placeholder="name" type="text" name="name"/>
+        <h2>Details:</h2>
+        <input className="stack" placeholder="group study name" type="text" name="name"/>
         <input className="" placeholder="date" type="date" name="date"/>
         <input type="hidden" name="topicId" value={topicId}/>
         <br/><br/>
-        <h3>Location</h3>
+        <h2>Location:</h2>
         <input className="stack" placeholder="latitude" type="number" name="lat"/>
         <input className="stack" placeholder="longitude" type="number" name="lng"/>
         <textarea className="stack" placeholder="description" name="description"/>
@@ -347,7 +354,7 @@ class App extends Component {
     )
   }
   renderTopicsList = (props) => {
-    return <Topics topicsList={this.state.topicsList}/>
+    return <Topics topicsList={this.state.topicsList} markers={this.state.markers}/>
   }
   render() {
     return (
@@ -364,7 +371,7 @@ class App extends Component {
           </div>
           <div>
             <Footer />
-            </div>
+          </div>
         </div>
       </Router>
     );
