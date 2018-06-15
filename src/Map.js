@@ -6,7 +6,7 @@ const GoogleMapExample = withGoogleMap( props => {
   return (
    <GoogleMap
      center = { props.center || { lat: 33.881938, lng: 35.541888 } }
-     defaultZoom = { 14 }
+     defaultZoom = { 13.5 }
      ref={ props.ref }
    >
    { props.markers.map( ({id, title,...props}) => 

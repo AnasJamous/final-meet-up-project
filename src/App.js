@@ -22,7 +22,11 @@ const Header = () => (
 )
 const Footer = () => (
   <div className="footer">
-    <h1 style={{ textAlign: 'center', color: 'white' }}> THIS IS FOOTER  </h1>
+    <h1 style={{ textAlign: 'center', color: 'white' }}>
+      <ol>
+        <ul> contact list</ul>
+      </ol>  
+    </h1>
   </div>
 )
 const Topic = ({ name, topicId, image, meetups }) => (
@@ -139,34 +143,34 @@ class App extends Component {
         title: 'Open disscutionAlgorithm Design',
         date: '24th Jan',
         by: 2,
-        position: { lat: 33., lng: 2234324 },
+        position: { lat: 33.694762, lng: 35.211486 },
         description: "Find out what's happening in Mathematics Meetup groups around the world and start meeting up with the ones near you.",
         users: [1, 2],
         category: 'Maths'
       },
       { id:3,
-        title: 'Developers & Entrepreneurs',
+        title: 'AUB group',
         date: '12th may',
         by: 3,
-        position: { lat: 234234, lng: 2234324 },
+        position: { lat: 33.881938, lng: 35.541888 },
         description: 'Hello and welcome to the MOST ACTIVE Meetup in the World for Developers and Entrepreneurs!!! ',
         users: [0, 1, 2],
         category: 'Programming Language'
       },
       { id:56,
-        title: 'Developers & Entrepreneurs',
+        title: 'LAU group',
         date: '12th may',
         by: 3,
-        position: { lat: 234234, lng: 2234324 },
+        position: { lat: 33.894465, lng: 35.494581 },
         description: 'Hello and welcome to the MOST ACTIVE Meetup in the World for Developers and Entrepreneurs!!! ',
         users: [0, 1, 2],
         category: "Fashion and Beauty"
       },
       { id:67,
-        title: 'Developers & Entrepreneurs',
+        title: 'AUST group',
         date: '12th may',
         by: 3,
-        position: { lat: 234234, lng: 2234324 },
+        position: { lat: 33.89011, lng: 35.508885 },
         description: 'Hello and welcome to the MOST ACTIVE Meetup in the World for Developers and Entrepreneurs!!! ',
         users: [0, 1, 2],
         category: "Books Clubs"
@@ -237,14 +241,14 @@ class App extends Component {
       console.log('topic not found')
       return false
     }
-    const meetup = topic.meetups[meetupId]
+    const meetup = this.state.meetupsList.find(meetup => meetup.id === meetupId)
     if (!meetup) {
       return false;
     }
     const users = [...meetup.users, this.state.user]
     const newMeetup = { ...meetup, users }
-    const meetups = topic.meetups.map((meetup, index) => {
-      if (index === meetupId) {
+    const meetups = this.state.meetupsList.map((meetup) => {
+      if (meetup.id === meetupId) {
         return newMeetup
       }
       return meetup
@@ -295,6 +299,7 @@ class App extends Component {
       console.log('no topic');
       return;
     }
+    console.log('sdfsfsdfsdf', topic.meetups, meetup)
     const meetups = [...topic.meetups, meetup]
     const newTopic = { ...topic, meetups }
     const topicsList = this.state.topicsList.map((topic, index) => {
@@ -344,9 +349,9 @@ class App extends Component {
               <Route exact path={'/topic/:topicId/meetup/:meetupId'} render={this.renderMeetup} />
             </Switch>
           </div>
-          <div>
+          {/* <div>
             <Footer />
-          </div>
+          </div> */}
         </div>
       </Router>
     );
